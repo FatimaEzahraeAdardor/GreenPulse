@@ -5,12 +5,13 @@ public class Consomation {
     private int Id;
     private LocalDate startDate;
     private LocalDate endDate;
-
-    // Constructor
-    public Consomation(int Id, LocalDate startDate, LocalDate endDate) {
+    private double quantity;
+    public Consomation(){ }
+    public Consomation(int Id, LocalDate startDate, LocalDate endDate , double quantity) {
         this.Id = Id;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.quantity = quantity;
     }
 
     public int getID() {
@@ -36,9 +37,14 @@ public class Consomation {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
-    public void afficherDetails() {
-        System.out.println("ID: " + Id);
-        System.out.println("Start Date: " + startDate);
-        System.out.println("End Date: " + endDate);
+
+    public double getAmount() {
+        return quantity;
     }
+
+    public void setAmount(double amount) {
+        this.quantity = amount;
+    }
+
+
 }

@@ -1,41 +1,46 @@
 package GreenPulse;
-
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ManageUser {
-    private List<User> users;
+//    private List<User> users;
+    private Map<String , User> users;
+    private Map<String ,Consomation> consomations;
+    Scanner sc = new Scanner(System.in);
+
 
     public ManageUser() {
-        users = new ArrayList<>();
+          users = new HashMap<>();
+          consomations = new HashMap<>();
+
     }
     public void addUser() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Identifiant Unique");
-        int IdUnique = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Name:");
+        System.out.println(" Create New Account ");
+        System.out.println(" Enter your Unique Identifier");
+        String IdUnique = sc.nextLine();
+        System.out.print("Enter Your Name: ");
         String name = sc.nextLine();
-        System.out.println("Age:");
+        System.out.print("Enter Your Age: ");
         int age = sc.nextInt();
         sc.nextLine();
-        User newUser = new User(IdUnique, name, age);
-        users.add(newUser);
-        System.out.println("User added successfully!");
+        if (users.containsKey(IdUnique)){
+            System.out.println("User with this ID already exists.");
+        } else {
+            User newUser = new User(IdUnique, name, age);
+            users.put(IdUnique, newUser);
+            System.out.println("User added successfully!");
+        }
     }
      public void UpdateUser(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the unique ID of the user to modify:");
-        int IdUnique = sc.nextInt();
+         System.out.println("Modify Account");
+         System.out.println("Enter the unique Identifier of the user to modify:");
+        String IdUnique = sc.nextLine();
         sc.nextLine();
-        User userModify = null;
-         for (User user : users) {
-             if(user.getIdUnique() == IdUnique){
-                 userModify = user;
-                 break;
-             }
-         }
+         User userModify = users.get(IdUnique);
          if (userModify != null){
              System.out.println("Enter new name:");
              String newName = sc.nextLine();
@@ -50,36 +55,26 @@ public class ManageUser {
          }
      }
      public void deleteUser(){
-        Scanner sc = new Scanner(System.in);
-         System.out.println("Enter the unique ID of the user to delete:");
-         int IdUnique = sc.nextInt();
+         System.out.println("Enter the unique Identifier of the user to delete:");
+         String IdUnique = sc.nextLine();
          sc.nextLine();
-         User DeletedUser = null;
-        for (User user : users){
-            if(user.getIdUnique() == IdUnique){
-                DeletedUser= user;
-                break;
-            }
-
-        }
-        if(DeletedUser != null){
-            users.remove(DeletedUser);
+         User DeletedUser = users.remove(IdUnique);
+         if(DeletedUser != null){
             System.out.println("User deleted successfully!");
         } else {
             System.out.println("User with ID " + IdUnique + " not found.");
         }
      }
     public void displayUsers() {
+        System.out.println("List of All Accounts");
         if (users.isEmpty()) {
             System.out.println("No users available.");
         } else {
-            for (User user : users) {
-                System.out.println("users :");
-                System.out.println("Identifiant Unique: " + user.getIdUnique());
-                System.out.println("Name: " + user.getName());
-                System.out.println("Age: " + user.getAge());
+            for (User user : users.values()) {
+                System.out.print("id: " + user.getIdUnique() + "  name: " + user.getName() + " age: " + user.getAge() + "\n");
             }
         }
     }
+
 }
 
