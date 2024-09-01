@@ -31,7 +31,7 @@ public class Main {
                     manageUser.deleteUser();
                     break;
                 case 5:
-
+                    manageUser.addConsumptionToUser();
                     break;
                 case 6:
                     System.out.println("Exiting the program...");

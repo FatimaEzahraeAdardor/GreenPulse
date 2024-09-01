@@ -1,13 +1,10 @@
 package GreenPulse;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class ManageUser {
-//    private List<User> users;
     private Map<String , User> users;
     private Map<String ,Consomation> consomations;
     Scanner sc = new Scanner(System.in);
@@ -39,7 +36,6 @@ public class ManageUser {
          System.out.println("Modify Account");
          System.out.println("Enter the unique Identifier of the user to modify:");
         String IdUnique = sc.nextLine();
-        sc.nextLine();
          User userModify = users.get(IdUnique);
          if (userModify != null){
              System.out.println("Enter new name:");
@@ -57,7 +53,6 @@ public class ManageUser {
      public void deleteUser(){
          System.out.println("Enter the unique Identifier of the user to delete:");
          String IdUnique = sc.nextLine();
-         sc.nextLine();
          User DeletedUser = users.remove(IdUnique);
          if(DeletedUser != null){
             System.out.println("User deleted successfully!");
@@ -74,6 +69,29 @@ public class ManageUser {
                 System.out.print("id: " + user.getIdUnique() + "  name: " + user.getName() + " age: " + user.getAge() + "\n");
             }
         }
+    }
+    public void addConsumptionToUser(){
+        System.out.println("Add new Consumption");
+        System.out.println("Enter the unique Identifier of the user to Add Consumption:");
+        String  IdUnique = sc.nextLine();
+        User userCons= users.get(IdUnique);
+        if(userCons != null){
+            System.out.println("Enter Start date");
+            System.out.print("Enter start date (format: YYYY-MM-DD) : ");
+            LocalDate startDate = LocalDate.parse(sc.nextLine());
+            System.out.print("Enter end date (format: YYYY-MM-DD) : ");
+            LocalDate endDate = LocalDate.parse(sc.nextLine());
+            System.out.println("Enter the quantity:");
+            double quantity = sc.nextDouble();
+            sc.nextLine();
+            int consomationId = userCons.getConsomation().size() + 1;
+            Consomation newConsomation = new Consomation(consomationId, startDate, endDate, quantity);
+
+            userCons.getConsomation().add(newConsomation);
+            System.out.println("Consumption added successfully!");
+
+        }
+
     }
 
 }
