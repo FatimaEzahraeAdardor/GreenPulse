@@ -7,6 +7,8 @@ public class User {
     private String name;
     private int age;
     private List<Consomation> consomation;
+    public User(){
+    }
 
     public User( String IdUnique, String name, int age ) {
         this.IdUnique = IdUnique;
@@ -45,7 +47,8 @@ public class User {
     public void setConsomation(List<Consomation> consomation) {
         this.consomation = consomation;
     }
-
-
+    public String toString() {
+        return "idUnique=" + IdUnique + ", name='" + name  + ", age=" + age + ", consumptions=" + consomation ;
+    }
 
 }

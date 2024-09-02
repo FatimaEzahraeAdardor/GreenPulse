@@ -1,19 +1,14 @@
 package GreenPulse;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class ManageUser {
-    private Map<String , User> users;
-    private Map<String ,Consomation> consomations;
+    private Map<String , User> users =users = new HashMap<>();
+    private Map<String ,Consomation> consomations = consomations = new HashMap<>();
     Scanner sc = new Scanner(System.in);
 
-
-    public ManageUser() {
-          users = new HashMap<>();
-          consomations = new HashMap<>();
-
+    public User getUserById(String id) {
+        return users.get(id);
     }
     public void addUser() {
         System.out.println(" Create New Account ");
@@ -70,29 +65,22 @@ public class ManageUser {
             }
         }
     }
-    public void addConsumptionToUser(){
-        System.out.println("Add new Consumption");
-        System.out.println("Enter the unique Identifier of the user to Add Consumption:");
-        String  IdUnique = sc.nextLine();
-        User userCons= users.get(IdUnique);
-        if(userCons != null){
-            System.out.println("Enter Start date");
-            System.out.print("Enter start date (format: YYYY-MM-DD) : ");
-            LocalDate startDate = LocalDate.parse(sc.nextLine());
-            System.out.print("Enter end date (format: YYYY-MM-DD) : ");
-            LocalDate endDate = LocalDate.parse(sc.nextLine());
-            System.out.println("Enter the quantity:");
-            double quantity = sc.nextDouble();
-            sc.nextLine();
-            int consomationId = userCons.getConsomation().size() + 1;
-            Consomation newConsomation = new Consomation(consomationId, startDate, endDate, quantity);
-
-            userCons.getConsomation().add(newConsomation);
-            System.out.println("Consumption added successfully!");
-
+    public void DisplayTotalConsumption() {
+        System.out.println("Total Consumption");
+        System.out.print("Enter user unique Identifier: ");
+        String IdUnique = sc.nextLine();
+        User user = users.get(IdUnique);
+        if (user != null) {
+            double totalConsumption = 0.0d;
+            for (Consomation consumption : user.getConsomation()) {
+                totalConsumption += consumption.getQuantity();
+            }
+            System.out.println("Total consumption for user " + IdUnique + " is: " + totalConsumption + " units.");
+        } else {
+            System.out.println("User not found with ID: " + IdUnique);
         }
-
     }
+
 
 }
 

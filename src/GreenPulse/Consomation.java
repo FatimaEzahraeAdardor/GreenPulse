@@ -1,12 +1,20 @@
 package GreenPulse;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.time.temporal.ChronoUnit;
+
 
 public class Consomation {
     private int Id;
     private LocalDate startDate;
     private LocalDate endDate;
     private double quantity;
-    public Consomation(){ }
+    Scanner sc = new Scanner(System.in);
+    public Consomation(){
+    }
+
     public Consomation(int Id, LocalDate startDate, LocalDate endDate , double quantity) {
         this.Id = Id;
         this.startDate = startDate;
@@ -38,13 +46,15 @@ public class Consomation {
         this.endDate = endDate;
     }
 
-    public double getAmount() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setAmount(double amount) {
-        this.quantity = amount;
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
-
+    public String toString() {
+        return "startDate=" + startDate + ", endDate=" + endDate + ", quantity=" + quantity ;
+    }
 
 }

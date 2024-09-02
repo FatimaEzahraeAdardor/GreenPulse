@@ -1,8 +1,10 @@
 import  GreenPulse.ManageUser;
+import GreenPulse.ConsomationService;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         ManageUser manageUser = new ManageUser();
+        ConsomationService consomationService = new ConsomationService(manageUser);
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -12,7 +14,11 @@ public class Main {
             System.out.println("3. Modify Account  ");
             System.out.println("4. Delete Account ");
             System.out.println("5. Add Consumption to User");
-            System.out.println("6. Exit");
+            System.out.println("6. Show total Consumption ");
+            System.out.println("7. Show Daily Consumption ");
+            System.out.println("8. Show weekly Consumption ");
+            System.out.println("9. Show Monthly  Consumption ");
+            System.out.println("10. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -31,9 +37,18 @@ public class Main {
                     manageUser.deleteUser();
                     break;
                 case 5:
-                    manageUser.addConsumptionToUser();
+                    consomationService.addConsumptionToUser();
                     break;
                 case 6:
+                    manageUser.DisplayTotalConsumption();
+                    break;
+                case 7 :
+                    consomationService.showDailyCarbonConsumption();
+                    break;
+                case 8 :
+//                    consomationService.showWeeklyCarbonConsumption();
+                    break;
+                case 10:
                     System.out.println("Exiting the program...");
                     scanner.close();
                     return;
