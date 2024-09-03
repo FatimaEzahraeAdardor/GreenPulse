@@ -48,6 +48,9 @@ public class Main {
                 case 8 :
                     consomationService.showWeeklyCarbonConsumption();
                     break;
+                case 9 :
+                    consomationService.showMonthlyCarbonConsumption();
+                    break;
                 case 10:
                     System.out.println("Exiting the program...");
                     scanner.close();

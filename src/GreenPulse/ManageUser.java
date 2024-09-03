@@ -75,7 +75,7 @@ public class ManageUser {
             for (Consomation consumption : user.getConsomation()) {
                 totalConsumption += consumption.getQuantity();
             }
-            System.out.println("Total consumption for user " + IdUnique + " is: " + totalConsumption + " units.");
+            System.out.println("Total consumption for user " + IdUnique + " is: " + totalConsumption + " kg CO₂.");
         } else {
             System.out.println("User not found with ID: " + IdUnique);
         }

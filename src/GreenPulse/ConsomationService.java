@@ -1,20 +1,23 @@
 package GreenPulse;
 import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Scanner;
 
 public class ConsomationService {
-    private  ManageUser manageUser = new ManageUser();
-      Scanner sc = new Scanner(System.in);
+    private ManageUser manageUser = new ManageUser();
+    Scanner sc = new Scanner(System.in);
+
     public ConsomationService(ManageUser manageUser) {
         this.manageUser = manageUser;
     }
-    public void addConsumptionToUser(){
+
+    public void addConsumptionToUser() {
         System.out.println("Add new Consumption");
         System.out.println("Enter the unique Identifier of the user to Add Consumption:");
-        String  idUnique = sc.nextLine();
-        User userCons= manageUser.getUserById(idUnique);
-        if(userCons != null){
+        String idUnique = sc.nextLine();
+        User userCons = manageUser.getUserById(idUnique);
+        if (userCons != null) {
             System.out.println("Enter Start date");
             System.out.print("Enter start date (format: YYYY-MM-DD) : ");
             LocalDate startDate = LocalDate.parse(sc.nextLine());
@@ -29,11 +32,12 @@ public class ConsomationService {
             userCons.getConsomation().add(newConsomation);
             System.out.println("Consumption added successfully!");
 
-        }else {
+        } else {
             System.out.println("User not found");
         }
 
     }
+
     public void showDailyCarbonConsumption() {
         System.out.println("Daily Carbon Consumption");
         System.out.print("Enter user unique Identifier: ");
@@ -44,46 +48,78 @@ public class ConsomationService {
                 LocalDate startDate = consomation.getStartDate();
                 LocalDate endDate = consomation.getEndDate();
                 double totalQuantity = consomation.getQuantity();
-                long daysBetween = ChronoUnit.DAYS.between(startDate, endDate)+ 1;
+                long daysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1;
                 double dailyConsumption = totalQuantity / daysBetween;
-                System.out.println("Daily consumption for user  with id " + idUnique + " between " + startDate + " and " + endDate + "is : " + dailyConsumption + " units.");
+                System.out.println("Daily consumption for user  with id " + idUnique + " between " + startDate + " and " + endDate + "is : " + dailyConsumption + " kg CO₂.");
             }
         } else {
             System.out.println("User not found with ID: " + idUnique);
         }
     }
-        public void showWeeklyCarbonConsumption() {
-            System.out.println("Weekly Carbon Consumption");
-            System.out.print("Enter user unique Identifier: ");
-            String idUnique = sc.nextLine();
-            User user = manageUser.getUserById(idUnique);
 
-            if (user != null) {
-                for (Consomation consomation : user.getConsomation()) {
-                    LocalDate startDate = consomation.getStartDate();
-                    LocalDate endDate = consomation.getEndDate();
-                    double totalQuantity = consomation.getQuantity();
-                    long totalDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
-                    double dailyConsumption = totalQuantity / totalDays;
-                    LocalDate currentStartDate = startDate;
+    public void showWeeklyCarbonConsumption() {
+        System.out.println("Weekly Carbon Consumption");
+        System.out.print("Enter user unique Identifier: ");
+        String idUnique = sc.nextLine();
+        User user = manageUser.getUserById(idUnique);
 
-                    while (currentStartDate.isBefore(endDate)) {
-                        LocalDate currentEndDate = currentStartDate.plusDays(6);
-                        if (currentEndDate.isAfter(endDate)) {
-                            currentEndDate = endDate;
-                        }
-                        long daysInCurrentWeek = ChronoUnit.DAYS.between(currentStartDate, currentEndDate) + 1;
-                        double weeklyConsumption = dailyConsumption * daysInCurrentWeek;
+        if (user != null) {
+            for (Consomation consomation : user.getConsomation()) {
+                LocalDate startDate = consomation.getStartDate();
+                LocalDate endDate = consomation.getEndDate();
+                double totalQuantity = consomation.getQuantity();
+                long totalDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+                double dailyConsumption = totalQuantity / totalDays;
+                LocalDate currentStartDate = startDate;
 
-                        System.out.println("Weekly consumption for user with ID " + idUnique + " from " + currentStartDate + " to " + currentEndDate + " is: " + weeklyConsumption + " units.");
-                        currentStartDate = currentEndDate.plusDays(1);
+                while (currentStartDate.isBefore(endDate)) {
+                    LocalDate currentEndDate = currentStartDate.plusDays(6);
+                    if (currentEndDate.isAfter(endDate)) {
+                        currentEndDate = endDate;
                     }
+                    long daysInCurrentWeek = ChronoUnit.DAYS.between(currentStartDate, currentEndDate) + 1;
+                    double weeklyConsumption = dailyConsumption * daysInCurrentWeek;
+
+                    System.out.println("Weekly consumption for user with ID " + idUnique + " from " + currentStartDate + " to " + currentEndDate + " is: " + weeklyConsumption + " kg CO₂.");
+                    currentStartDate = currentEndDate.plusDays(1);
                 }
-            } else {
-                 System.out.println("User not found with ID: " + idUnique);
+            }
+        } else {
+            System.out.println("User not found with ID: " + idUnique);
         }
+    }
+
+    public void showMonthlyCarbonConsumption() {
+        System.out.println("Monthly Carbon Consumption");
+        System.out.print("Enter user unique Identifier: ");
+        String idUnique = sc.nextLine();
+        User user = manageUser.getUserById(idUnique);
+
+        if (user != null) {
+            for (Consomation consomation : user.getConsomation()) {
+                LocalDate startDate = consomation.getStartDate();
+                LocalDate endDate = consomation.getEndDate();
+                double totalQuantity = consomation.getQuantity();
+                long totalDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+                double dailyConsumption = totalQuantity / totalDays;
+                LocalDate currentStartDate = startDate;
+
+                while (currentStartDate.isBefore(endDate)) {
+                    LocalDate currentEndDate = currentStartDate.with(TemporalAdjusters.lastDayOfMonth());
+                    if (currentEndDate.isAfter(endDate)) {
+                        currentEndDate = endDate;
+                    }
+                    long daysInCurrentMonth = ChronoUnit.DAYS.between(currentStartDate, currentEndDate) + 1;
+                    double monthlyConsumption = dailyConsumption * daysInCurrentMonth;
+
+                    System.out.println("Monthly consumption for user with ID " + idUnique + " from " + currentStartDate + " to " + currentEndDate + " is: " + monthlyConsumption + " kg CO₂.");
+                    currentStartDate = currentEndDate.plusDays(1);
+                }
+            }
+        } else {
+            System.out.println("User not found with ID: " + idUnique);
         }
 
-
+    }
 }
 
