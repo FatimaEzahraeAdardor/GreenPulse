@@ -46,7 +46,7 @@ public class Main {
                     consomationService.showDailyCarbonConsumption();
                     break;
                 case 8 :
-//                    consomationService.showWeeklyCarbonConsumption();
+                    consomationService.showWeeklyCarbonConsumption();
                     break;
                 case 10:
                     System.out.println("Exiting the program...");

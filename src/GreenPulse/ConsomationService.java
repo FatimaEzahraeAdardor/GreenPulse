@@ -44,7 +44,7 @@ public class ConsomationService {
                 LocalDate startDate = consomation.getStartDate();
                 LocalDate endDate = consomation.getEndDate();
                 double totalQuantity = consomation.getQuantity();
-                long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+                long daysBetween = ChronoUnit.DAYS.between(startDate, endDate)+ 1;
                 double dailyConsumption = totalQuantity / daysBetween;
                 System.out.println("Daily consumption for user  with id " + idUnique + " between " + startDate + " and " + endDate + "is : " + dailyConsumption + " units.");
             }
@@ -52,6 +52,37 @@ public class ConsomationService {
             System.out.println("User not found with ID: " + idUnique);
         }
     }
+        public void showWeeklyCarbonConsumption() {
+            System.out.println("Weekly Carbon Consumption");
+            System.out.print("Enter user unique Identifier: ");
+            String idUnique = sc.nextLine();
+            User user = manageUser.getUserById(idUnique);
+
+            if (user != null) {
+                for (Consomation consomation : user.getConsomation()) {
+                    LocalDate startDate = consomation.getStartDate();
+                    LocalDate endDate = consomation.getEndDate();
+                    double totalQuantity = consomation.getQuantity();
+                    long totalDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+                    double dailyConsumption = totalQuantity / totalDays;
+                    LocalDate currentStartDate = startDate;
+
+                    while (currentStartDate.isBefore(endDate)) {
+                        LocalDate currentEndDate = currentStartDate.plusDays(6);
+                        if (currentEndDate.isAfter(endDate)) {
+                            currentEndDate = endDate;
+                        }
+                        long daysInCurrentWeek = ChronoUnit.DAYS.between(currentStartDate, currentEndDate) + 1;
+                        double weeklyConsumption = dailyConsumption * daysInCurrentWeek;
+
+                        System.out.println("Weekly consumption for user with ID " + idUnique + " from " + currentStartDate + " to " + currentEndDate + " is: " + weeklyConsumption + " units.");
+                        currentStartDate = currentEndDate.plusDays(1);
+                    }
+                }
+            } else {
+                 System.out.println("User not found with ID: " + idUnique);
+        }
+        }
 
 
 }
