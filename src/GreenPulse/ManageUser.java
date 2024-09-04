@@ -11,14 +11,21 @@ public class ManageUser {
         return users.get(id);
     }
     public void addUser() {
+        int age;
         System.out.println(" Create New Account ");
         System.out.println(" Enter your Unique Identifier");
         String IdUnique = sc.nextLine();
         System.out.print("Enter Your Name: ");
         String name = sc.nextLine();
-        System.out.print("Enter Your Age: ");
-        int age = sc.nextInt();
-        sc.nextLine();
+        while (true) {
+            System.out.print("Enter Your Age: ");
+             age = sc.nextInt();
+            sc.nextLine();
+            if (age>0 ){
+                break;
+            }
+            System.out.println("age invalide. please enter again");
+        };
         if (users.containsKey(IdUnique)){
             System.out.println("User with this ID already exists.");
         } else {

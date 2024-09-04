@@ -1,7 +1,11 @@
 package GreenPulse;
+import utils.DateChecker;
+
 import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsomationService {
@@ -13,24 +17,38 @@ public class ConsomationService {
     }
 
     public void addConsumptionToUser() {
+        LocalDate startDate;
+        LocalDate endDate;
         System.out.println("Add new Consumption");
         System.out.println("Enter the unique Identifier of the user to Add Consumption:");
         String idUnique = sc.nextLine();
         User userCons = manageUser.getUserById(idUnique);
         if (userCons != null) {
-            System.out.println("Enter Start date");
-            System.out.print("Enter start date (format: YYYY-MM-DD) : ");
-            LocalDate startDate = LocalDate.parse(sc.nextLine());
-            System.out.print("Enter end date (format: YYYY-MM-DD) : ");
-            LocalDate endDate = LocalDate.parse(sc.nextLine());
+            while (true) {
+                System.out.println("Enter Start date");
+                System.out.print("Enter start date (format: YYYY-MM-DD) : ");
+                 startDate = LocalDate.parse(sc.nextLine());
+                System.out.print("Enter end date (format: YYYY-MM-DD) : ");
+                 endDate = LocalDate.parse(sc.nextLine());
+                 if (!endDate.isBefore(startDate)){
+                     break;
+                 }else {
+                     System.out.println(" \n End date cannot be before the start date. Please enter valid dates.\n");
+                 }
+            };
             System.out.println("Enter the quantity:");
             double quantity = sc.nextDouble();
             sc.nextLine();
-            int consomationId = userCons.getConsomation().size() + 1;
-            Consomation newConsomation = new Consomation(consomationId, startDate, endDate, quantity);
+            boolean check = DateChecker.isDateAvailable(startDate , endDate ,getDates(userCons.getConsomation()));
+            if (check) {
+                int consomationId = userCons.getConsomation().size() + 1;
+                Consomation newConsomation = new Consomation(consomationId, startDate, endDate, quantity);
+                userCons.getConsomation().add(newConsomation);
+                System.out.println("Consumption added successfully!");
+            }else {
+                System.out.println("Error occurred while adding consumption");
 
-            userCons.getConsomation().add(newConsomation);
-            System.out.println("Consumption added successfully!");
+            }
 
         } else {
             System.out.println("User not found");
@@ -119,6 +137,16 @@ public class ConsomationService {
         } else {
             System.out.println("User not found with ID: " + idUnique);
         }
+
+    }
+    public List<LocalDate> getDates (List<Consomation> consomations){
+        List<LocalDate> dates = new ArrayList<>();
+        for (Consomation consomation: consomations){
+            for (LocalDate date = consomation.getStartDate() ; !date.isAfter(consomation.getEndDate()) ; date= date.plusDays(1)){
+                dates.add(date);
+            }
+        }
+        return dates;
 
     }
 }
