@@ -34,7 +34,8 @@ public class Main {
             System.out.println("7. Show Daily Consumption ");
             System.out.println("8. Show weekly Consumption ");
             System.out.println("9. Show Monthly  Consumption ");
-            System.out.println("10. Exit");
+            System.out.println("10. Users with a total consumption greater than 3000 KgCO2eq");
+            System.out.println("11. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -67,7 +68,9 @@ public class Main {
                 case 9 :
 //                    consomationService.showMonthlyCarbonConsumption();
                     break;
-                case 10:
+                case 10 :
+                    userView.ShowAllUsersWithConsumptionGreater();
+                case 11:
                     System.out.println("Exiting the program...");
                     scanner.close();
                     return;

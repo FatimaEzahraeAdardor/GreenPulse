@@ -1,6 +1,7 @@
 package GreenPulse.Views;
 
 import GreenPulse.Entites.User;
+import GreenPulse.Services.ConsomationService;
 import GreenPulse.Services.UserService;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 public class UserView {
     private UserService userService = new UserService();
+    private ConsomationService consomationService = new ConsomationService();
     private Scanner scanner = new Scanner(System.in);
 
     public void addUser() {
@@ -115,6 +117,22 @@ public class UserView {
                 System.out.print("id: " + user.getId() + "  name: " + user.getName() + " age: " + user.getAge() + "\n");
             }
         }
+    }
+    public void ShowAllUsersWithConsumptionGreater(){
+        System.out.println("  Users with a total consumption greater than 3000 KgCO2eq  ");
+        List<User> users = userService.FindserWithConsumption();
+        if(!users.isEmpty()){
+            System.out.println("\n+--------------------+--------------------+--------------------+-------------------+");
+            System.out.printf("| %-18s | %-18s | %-18s |%-18s |\n","ID", "Name", "Age" ,"total consumption");
+            System.out.println("+--------------------+--------------------+--------------------+-------------------+");
+            for (User user : users){
+                System.out.printf("| %-18s | %-18s | %-18s |%-18s |\n", user.getId(), user.getName(), user.getAge(),consomationService.calculConsumptionTotalForUser(user.getId()));
+                System.out.println("+--------------------+--------------------+--------------------+-------------------+");
+            }
+        }else {
+            System.out.println("\n Users not found \n");
+        }
+
     }
 
 }

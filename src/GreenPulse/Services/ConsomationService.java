@@ -164,4 +164,5 @@ public class ConsomationService {
         Optional<User> user = userService.getUserWithConsumptions(id);
         return user.get().getConsomation().stream().mapToDouble(Consomation::calculerImpact).sum();
     }
+
 }

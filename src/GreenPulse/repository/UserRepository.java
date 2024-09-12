@@ -127,7 +127,12 @@ public class UserRepository {
 
                 User user = userConsumptionsMap.getOrDefault(userId, new User(userName, userAge));
                 user.setId(userId);
+
                 String consumptionType = resultSet.getString("consumption_type");
+                if (consumptionType == null || consumptionType.isEmpty()) {
+                    continue;
+                }
+
                 Consomation consumption = null;
                 int consumptionId = resultSet.getInt("consumption_id");
                 try {
@@ -167,19 +172,25 @@ public class UserRepository {
                             consumption = transport;
                             break;
                     }
+
+                    // Add consumption to the user if it's not null
                     if (consumption != null) {
                         user.getConsomation().add(consumption);
                     }
+
+                    // Put the user back into the map
                     userConsumptionsMap.put(userId, user);
 
                 } catch (IllegalArgumentException e) {
                     System.out.println("Invalid consumption_type: " + consumptionType);
                 }
             }
+
         } catch (SQLException e) {
             System.out.println("Error fetching users with consumptions: " + e.getMessage());
             e.printStackTrace();
         }
+
         return new ArrayList<>(userConsumptionsMap.values());
     }
 
