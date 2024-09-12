@@ -1,11 +1,27 @@
-import  GreenPulse.ManageUser;
-import GreenPulse.ConsomationService;
+import GreenPulse.Entites.Enums.ConsumptionType;
+import GreenPulse.Entites.Enums.EnergyType;
+import GreenPulse.Entites.Enums.FoodType;
+import GreenPulse.Entites.Enums.VihicleType;
+import GreenPulse.Entites.Food;
+import GreenPulse.Entites.Housing;
+import GreenPulse.Services.ManageUser;
+import GreenPulse.Views.ConsumptionView;
+import GreenPulse.Views.UserView;
+import GreenPulse.repository.ConsumptionRepository;
+
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Scanner;
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        UserView userView = new UserView();
         ManageUser manageUser = new ManageUser();
-        ConsomationService consomationService = new ConsomationService(manageUser);
+        ConsumptionView consumptionView = new ConsumptionView();
+        ConsumptionRepository consumptionRepository = new ConsumptionRepository();
         Scanner scanner = new Scanner(System.in);
+//        Housing housing = new Housing(LocalDate.of(2024, 12, 12),LocalDate.of(2024, 12, 22),100,100., EnergyType.GAZ, ConsumptionType.HOUSING, 1);
+//        consumptionRepository.createHousing(housing);
+
 
         while (true) {
             System.out.println("************************ Principal Menu *******************");
@@ -25,31 +41,31 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    manageUser.addUser();
+                    userView.addUser();
                     break;
                 case 2:
-                    manageUser.displayUsers();
+                    userView.displayAllUsers();
                     break;
                 case 3:
-                    manageUser.UpdateUser();
+                    userView.updateUser();
                     break;
                 case 4:
-                    manageUser.deleteUser();
+                    userView.deleteUser();
                     break;
                 case 5:
-                    consomationService.addConsumptionToUser();
+                    consumptionView.addConsumptionToUser();
                     break;
                 case 6:
-                    manageUser.DisplayTotalConsumption();
+                    consumptionView.showConsumptionTotal();
                     break;
                 case 7 :
-                    consomationService.showDailyCarbonConsumption();
+//                    consomationService.showDailyCarbonConsumption();
                     break;
                 case 8 :
-                    consomationService.showWeeklyCarbonConsumption();
+//                    consomationService.showWeeklyCarbonConsumption();
                     break;
                 case 9 :
-                    consomationService.showMonthlyCarbonConsumption();
+//                    consomationService.showMonthlyCarbonConsumption();
                     break;
                 case 10:
                     System.out.println("Exiting the program...");

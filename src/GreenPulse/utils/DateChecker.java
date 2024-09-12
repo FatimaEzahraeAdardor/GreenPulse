@@ -1,4 +1,4 @@
-package utils;
+package GreenPulse.utils;
 
 import java.time.LocalDate;
 import java.util.List;

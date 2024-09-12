@@ -1,20 +1,29 @@
-package GreenPulse;
+package GreenPulse.Entites;
+import GreenPulse.Entites.Consomation;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String IdUnique;
+    private int id;
     private String name;
     private int age;
     private List<Consomation> consomation;
-    public User(){
+
+    public User() {
     }
 
-    public User( String IdUnique, String name, int age ) {
-        this.IdUnique = IdUnique;
+    public User(String name, int age) {
         this.name = name;
         this.age = age;
         this.consomation = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
     public String getName() {
         return name;
@@ -32,14 +41,6 @@ public class User {
         this.age = age;
     }
 
-    public String getIdUnique() {
-        return IdUnique;
-    }
-
-    public void setIdUnique(String idUnique) {
-        IdUnique = idUnique;
-    }
-
     public List<Consomation> getConsomation() {
         return consomation;
     }
@@ -47,8 +48,16 @@ public class User {
     public void setConsomation(List<Consomation> consomation) {
         this.consomation = consomation;
     }
+
+    @Override
     public String toString() {
-        return "idUnique=" + IdUnique + ", name='" + name  + ", age=" + age + ", consumptions=" + consomation ;
+        return "User{" +
+                "IdUnique='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", consomation=" + consomation +
+                '}';
     }
+
 
 }
