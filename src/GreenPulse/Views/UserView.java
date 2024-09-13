@@ -4,6 +4,7 @@ import GreenPulse.Entites.User;
 import GreenPulse.Services.ConsomationService;
 import GreenPulse.Services.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -132,6 +133,33 @@ public class UserView {
         }else {
             System.out.println("\n Users not found \n");
         }
+
+    }
+    public void showUsersInactifs(){
+        System.out.println("list of users inactifs");
+        System.out.print("Enter start date (YYYY-MM-DD): ");
+        LocalDate startDate = LocalDate.parse(scanner.nextLine());
+        System.out.print("Enter end date (YYYY-MM-DD)");
+        LocalDate endDate = LocalDate.parse(scanner.nextLine());
+        List<User> users = userService.getUsersInactifs(startDate,endDate);
+        if (users.isEmpty()) {
+            System.out.println("No users available.");
+        } else {
+            for (User user : users) {
+                System.out.print("id: " + user.getId() + "  name: " + user.getName() + " age: " + user.getAge() + "\n");
+            }
+        }
+    }
+    public void getavgConsumption(){
+        System.out.println("Enter your Id");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter start date (YYYY-MM-DD): ");
+        LocalDate startDate = LocalDate.parse(scanner.nextLine());
+        System.out.print("Enter end date (YYYY-MM-DD)");
+        LocalDate endDate = LocalDate.parse(scanner.nextLine());
+        double avg = userService.calculAverageConsumption(id,startDate,endDate);
+        System.out.println("\n Average consumption of user : " + id + " in period between  : " +startDate +" & "+endDate+ " is : " + avg +"  KgCO2eq");
 
     }
 

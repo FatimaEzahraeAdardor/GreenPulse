@@ -190,7 +190,6 @@ public class UserRepository {
             System.out.println("Error fetching users with consumptions: " + e.getMessage());
             e.printStackTrace();
         }
-
         return new ArrayList<>(userConsumptionsMap.values());
     }
 
