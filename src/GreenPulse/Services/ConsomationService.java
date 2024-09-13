@@ -160,10 +160,7 @@ public class ConsomationService {
             System.out.println("User not found with ID: " + id);
         }
     }
-    public Double calculConsumptionTotalForUser(int id){
-        Optional<User> user = userService.getUserWithConsumptions(id);
-        return user.get().getConsomation().stream().mapToDouble(Consomation::calculerImpact).sum();
-    }
+
 
 
 }

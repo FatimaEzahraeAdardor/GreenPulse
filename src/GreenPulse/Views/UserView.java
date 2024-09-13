@@ -127,7 +127,7 @@ public class UserView {
             System.out.printf("| %-18s | %-18s | %-18s |%-18s |\n","ID", "Name", "Age" ,"total consumption");
             System.out.println("+--------------------+--------------------+--------------------+-------------------+");
             for (User user : users){
-                System.out.printf("| %-18s | %-18s | %-18s |%-18s |\n", user.getId(), user.getName(), user.getAge(),consomationService.calculConsumptionTotalForUser(user.getId()));
+                System.out.printf("| %-18s | %-18s | %-18s |%-18s |\n", user.getId(), user.getName(), user.getAge(),userService.calculConsumptionTotalForUser(user.getId()));
                 System.out.println("+--------------------+--------------------+--------------------+-------------------+");
             }
         }else {
@@ -160,6 +160,14 @@ public class UserView {
         LocalDate endDate = LocalDate.parse(scanner.nextLine());
         double avg = userService.calculAverageConsumption(id,startDate,endDate);
         System.out.println("\n Average consumption of user : " + id + " in period between  : " +startDate +" & "+endDate+ " is : " + avg +"  KgCO2eq");
+
+    }
+    public void sortUserByTotalConsumption(){
+        System.out.println("list of users sorted by total consumption");
+        List<User> users = userService.sortUserByTotalConsumption();
+        for (User user : users){
+            System.out.print("id: " + user.getId() + "  name: " + user.getName() + " age: " + user.getAge() + "tatal consumption:" + userService.calculConsumptionTotalForUser(user.getId()) + "\n");
+        }
 
     }
 

@@ -5,6 +5,7 @@ import GreenPulse.repository.UserRepository;
 import GreenPulse.utils.DateChecker;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,8 +63,16 @@ public class UserService {
 
     }
 
+    public  Double calculConsumptionTotalForUser(int id){
+        Optional<User> user = getUserWithConsumptions(id);
+        return user.get().getConsomation().stream().mapToDouble(Consomation::calculerImpact).sum();
+    }
 
-
-
+    public List<User> sortUserByTotalConsumption() {
+        List<User> userList = userRepository.getAllUsersWithConsumptions();
+        return userList.stream()
+                .sorted(Comparator.comparing(user ->calculConsumptionTotalForUser(user.getId())))
+                .collect(Collectors.toList());
+    }
 
 }
