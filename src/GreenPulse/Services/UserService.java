@@ -44,7 +44,7 @@ public class UserService {
                 .findFirst();
     }
     //find user with consumption depass 3000 :
-    public List<User> FindserWithConsumption(){
+    public List<User> FindUserWithGreaqterConsumption(){
         return userRepository.getAllUsersWithConsumptions()
                 .stream().filter(e-> e.getConsomation().stream().mapToDouble(Consomation::calculerImpact).sum() > 3000.).collect(Collectors.toList());
 

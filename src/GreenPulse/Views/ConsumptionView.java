@@ -10,8 +10,6 @@ public class ConsumptionView {
     private final ConsomationService consumptionService = new ConsomationService();
     private UserService userService =new UserService();
     private final Scanner scanner = new Scanner(System.in);
-
-
     public void addConsumptionToUser() throws SQLException {
         System.out.print("Enter user CIN: ");
         int id = scanner.nextInt();

@@ -32,37 +32,72 @@ public class ConsumptionRepository {
     }
 
     public Food createFood(Food food) throws SQLException {
-        int c_id = create(food);
-        String query = "INSERT INTO food(food_type, weight, consumption_id) values(?::food_type,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setObject(1, food.getFoodType().name());
-        preparedStatement.setDouble(2, food.getWeight());
-        preparedStatement.setInt(3, c_id);
-        preparedStatement.executeUpdate();
+        int c_id =-1;
+        try {
+            connection.setAutoCommit(false);
+            c_id = create(food);
+            String query = "INSERT INTO food(food_type, weight, consumption_id) values(?::food_type,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setObject(1, food.getFoodType().name());
+            preparedStatement.setDouble(2, food.getWeight());
+            preparedStatement.setInt(3, c_id);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            if (connection != null) {
+                connection.rollback();
+            }
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
         return food;
+
     }
 
     public Housing createHousing(Housing housing) throws SQLException {
-        int c_id = create(housing);
-        String query = "INSERT INTO housing(energy_type, energy_consumption, consumption_id) values(?::energy_type,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setObject(1, housing.getEnergyTypes().name());
-        preparedStatement.setDouble(2, housing.getEnergyConsumption());
-        preparedStatement.setInt(3, c_id);
-        preparedStatement.executeUpdate();
-        return housing;
+        int c_id =-1;
+         try{
+             connection.setAutoCommit(false);
+             c_id = create(housing);
+            String query = "INSERT INTO housing(energy_type, energy_consumption, consumption_id) values(?::energy_type,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setObject(1, housing.getEnergyTypes().name());
+            preparedStatement.setDouble(2, housing.getEnergyConsumption());
+            preparedStatement.setInt(3, c_id);
+            preparedStatement.executeUpdate();
+           connection.commit();
+            } catch (SQLException e) {
+                if (connection != null) {
+                    connection.rollback();
+                }
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+
+         return housing;
     }
     public Transport createTransport(Transport transport) throws SQLException {
-        int c_id = create(transport);
-
+        int c_id;
+        try {
+        c_id = create(transport);
+        connection.setAutoCommit(false);
         String query = "INSERT INTO transport(vehicle_type, distance_traveled, consumption_id) values(?::vihicle_type,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setObject(1, transport.getVehicleType().name());
         preparedStatement.setDouble(2, transport.getDistanceTraveled());
         preparedStatement.setInt(3, c_id);
         preparedStatement.executeUpdate();
-
+            connection.commit();
+        } catch (SQLException e) {
+            if (connection != null) {
+                connection.rollback();
+            }
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
         return transport;
     }
-
 }
